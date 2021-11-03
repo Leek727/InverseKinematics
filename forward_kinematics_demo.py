@@ -1,6 +1,3 @@
-""" Da plan
-Find first vector and for next vectors add angle to first one and it should work
-"""
 import pygame
 import math
 import time
@@ -16,9 +13,12 @@ screen = pygame.display.set_mode([screen_w, screen_h])
 def draw_cvector(screen, tail, head, color=(255,255,255)):
     pygame.draw.line(screen, color, ((tail[0] + screen_w/2), (screen_h-tail[1])), ((head[0] + screen_w/2), (screen_h-head[1])))
 
+# sums two vectors
 def sum_vector(A, B):
+    # A = (x, y)
     return (A[0] + B[0], A[1] + B[1])
 
+# converts polar to the other one
 def convert_cartesian(A):
     # A = (mag, angle)
     angle = (A[1] * math.pi) / 180
@@ -29,15 +29,16 @@ def convert_cartesian(A):
 running = True
 while running:
 
-    # Did the user click the window close button?
+    # handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    # loop through every angle by 20 degrees
     for a in range(0, 180, 20):
         for b in range(0, 180, 20):
             for c in range(0, 180, 20):
-                screen.fill((0, 0, 0))
+                screen.fill((0, 0, 0)) # clear screen
                 vector_array = [(50, a), (50, b), (50, 65)] # polar vectors
 
                 # draw full arm
@@ -50,10 +51,9 @@ while running:
                 # draw end point
                 draw_cvector(screen, (0,0), cum_vector, (255,255,0))
 
-                # Flip the display
+                # Update display
                 pygame.display.flip()
 
                 time.sleep(.01)
 
-# Done! Time to quit.
 pygame.quit()
