@@ -39,7 +39,7 @@ while running:
         for b in range(0, 180, 20):
             for c in range(0, 180, 20):
                 screen.fill((0, 0, 0)) # clear screen
-                vector_array = [(50, a), (50, b), (50, 65)] # polar vectors
+                vector_array = [(50, a), (50, b), (50, c)] # polar vectors
 
                 # draw full arm
                 cum_vector = [0,0] # cumulative vector
@@ -54,6 +54,6 @@ while running:
                 # Update display
                 pygame.display.flip()
 
-                time.sleep(.01)
+                time.sleep(.05)
 
 pygame.quit()
