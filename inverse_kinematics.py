@@ -46,8 +46,6 @@ def best_angle(old_angles, new_angles):
         if temp_distance < angle_distance:
             angle_distance = temp_distance
             best_angles = angle_arr
-    
-        print(angle_distance)
 
     return best_angles
         
