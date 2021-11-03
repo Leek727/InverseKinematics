@@ -2,6 +2,7 @@ import pygame
 import math
 import time
 import json
+#from closest_point import find_closest
 
 pygame.init()
 
@@ -28,11 +29,32 @@ def convert_cartesian(A):
 
 # function to chose closest next arm position
 def best_angle(old_angles, new_angles):
-    pass
+    # return if only one possible angle
+    if len(new_angles) == 1:
+        return new_angles[0]
 
+    best_angles = []
+    angle_distance = 1000000
+    for angle_arr in new_angles:
+        temp_distance = 0
+        for i in range(len(angle_arr)):
+            temp_distance += abs(angle_arr[i] - old_angles[i])
+
+        if temp_distance < angle_distance:
+            angle_distance = temp_distance
+            best_angles = angle_arr
+    
+        print(angle_distance)
+
+    return best_angles
+        
+
+print("Loading data table...")
 data = {} # load angle table
 with open("vector_table.json", "r") as f:
     data = json.loads(f.read())
+
+print("Done!")
 
 # store converted mouse pos
 pos = []
@@ -51,17 +73,18 @@ while running:
             pos = event.pos
             pos = [round(pos[0] - screen_w/2), screen_h-pos[1]]
 
-
     try:
         str_pos = str(pos[0]) + "," + str(pos[1])
-        angles = data[str_pos][0]
+        angles = best_angle(angles, data[str_pos])
+
+        
     
     except:
-        pass
+        print("Waiting for mouse pos...")
+        print(pos)
     
     if len(angles) == 3:
         vector_array = [(50, angles[0]), (50, angles[1]), (50, angles[2])]
-        print(vector_array)
     
 
     screen.fill((0, 0, 0))
