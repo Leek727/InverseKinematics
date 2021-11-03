@@ -3,6 +3,7 @@ import math
 import time
 import json
 from closest_point import find_closest
+import numpy as np
 
 pygame.init()
 
@@ -62,7 +63,7 @@ pos = []
 
 # store array of vectors representing arm segments
 vector_array = []
-angles = []
+angles = [0,0,0]
 
 # store list of keys to search for closest mouse pos
 print("Parsing data...")
@@ -70,6 +71,7 @@ keys = []
 for key in data:
     keys.append([int(x) for x in key.split(",")])
 
+keys = np.array(keys)
 print("Done!")
 
 # Run until the user asks to quit
@@ -88,12 +90,9 @@ while running:
         pos = find_closest(pos, keys)
         str_pos = str(pos[0]) + "," + str(pos[1])
         angles = best_angle(angles, data[str_pos])
-
-        
-    
     except:
-        print("Waiting for mouse pos...")
-        print(pos)
+        angles = [0,0,0]
+        print(str_pos)
     
     if len(angles) == 3:
         vector_array = [(arm_lengths[0], angles[0]), (arm_lengths[1], angles[1]), (arm_lengths[2], angles[2])]
