@@ -2,11 +2,14 @@ import pygame
 import math
 import time
 import json
-#from closest_point import find_closest
+from closest_point import find_closest
 
 pygame.init()
 
 screen_w, screen_h = 600, 600
+
+# arm length
+arm_lengths = [100, 100, 100]
 
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
@@ -58,9 +61,19 @@ print("Done!")
 
 # store converted mouse pos
 pos = []
+
 # store array of vectors representing arm segments
 vector_array = []
 angles = []
+
+# store list of keys to search for closest mouse pos
+print("Parsing data...")
+keys = []
+for key in data:
+    keys.append([int(x) for x in key.split(",")])
+
+print("Done!")
+
 # Run until the user asks to quit
 running = True
 while running:
@@ -74,6 +87,7 @@ while running:
             pos = [round(pos[0] - screen_w/2), screen_h-pos[1]]
 
     try:
+        pos = find_closest(pos, keys)
         str_pos = str(pos[0]) + "," + str(pos[1])
         angles = best_angle(angles, data[str_pos])
 
@@ -84,7 +98,7 @@ while running:
         print(pos)
     
     if len(angles) == 3:
-        vector_array = [(50, angles[0]), (50, angles[1]), (50, angles[2])]
+        vector_array = [(arm_lengths[0], angles[0]), (arm_lengths[1], angles[1]), (arm_lengths[2], angles[2])]
     
 
     screen.fill((0, 0, 0))

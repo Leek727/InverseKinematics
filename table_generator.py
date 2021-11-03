@@ -10,6 +10,9 @@ screen_w, screen_h = 600, 600
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
 
+# arm length
+arm_lengths = [100, 100, 100]
+
 # draw cartesian vector
 def draw_cvector(screen, tail, head, color=(255,255,255)):
     pygame.draw.line(screen, color, ((tail[0] + screen_w/2), (screen_h-tail[1])), ((head[0] + screen_w/2), (screen_h-head[1])))
@@ -43,7 +46,7 @@ while running:
             for c in range(0, 360, 10):
                 # ------------------ forward kinematics part ------------------
                 screen.fill((0, 0, 0)) # clear screen
-                vector_array = [(50, a), (50, b), (50, c)] # polar vectors
+                vector_array = [(arm_lengths[0], a), (arm_lengths[1], b), (arm_lengths[2], c)] # polar vectors
 
                 # draw full arm
                 cum_vector = [0,0] # cumulative vector
